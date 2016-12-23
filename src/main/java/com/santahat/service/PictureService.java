@@ -36,5 +36,5 @@ public interface PictureService {
      * @param file
      * @return
      */
-    String uploadFile(MultipartFile file);
+    void uploadFile(MultipartFile file);
 }
