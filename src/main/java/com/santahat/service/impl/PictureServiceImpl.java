@@ -75,9 +75,10 @@ public class PictureServiceImpl implements PictureService {
     @Override
     public void uploadFile(MultipartFile file,HttpServletRequest request) {
         if(!file.isEmpty()){
-            String picUrl = "/img/fileUpload/"+file.getOriginalFilename();
+            String picUrl = file.getOriginalFilename();
+            System.out.println(picUrl);
             try {
-                file.transferTo(new File(apiManager.getPreffix()+picUrl));
+                file.transferTo(new File(request.getSession().getServletContext().getRealPath("/img/fileUpload/"),picUrl));
             } catch (IOException e) {
                 e.printStackTrace();
             }
