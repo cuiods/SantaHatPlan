@@ -22,4 +22,8 @@ public class Hat {
         BeanUtils.copyProperties(face,this,"id");
     }
 
+    public void setHat_url(String url){
+        this.hat_url = url;
+    }
+
 }

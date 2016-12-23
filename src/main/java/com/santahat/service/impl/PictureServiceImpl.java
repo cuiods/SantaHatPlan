@@ -8,9 +8,12 @@ import com.santahat.service.PictureService;
 import com.santahat.util.APIManager;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collector;
@@ -25,6 +28,9 @@ public class PictureServiceImpl implements PictureService {
 
     @Resource
     private APIManager apiManager;
+
+    @Autowired
+    private HttpServletRequest request;
 
 
     @Override
@@ -62,6 +68,21 @@ public class PictureServiceImpl implements PictureService {
 
     @Override
     public Hat chooseSantaHat(Face face) {
-        return null;
+        String url = apiManager.getHatUrl();
+        Hat hat = new Hat(face);
+        hat.setHat_url(url);
+        return hat;
+    }
+
+    @Override
+    public String uploadFile(MultipartFile file) {
+        if(!file.isEmpty()){
+            String picUrl = request.getSession().getServletContext().getRealPath("/")+"upload/"+file.getOriginalFilename();
+            List<Hat> hats = chooseSantaHat(findFaces(picUrl));
+            request.setAttribute("hats",hats);
+            return "result";
+        }else{
+            return "file_empty_error";
+        }
     }
 }

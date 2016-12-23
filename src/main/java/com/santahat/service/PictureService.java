@@ -2,6 +2,7 @@ package com.santahat.service;
 
 import com.santahat.bean.Face;
 import com.santahat.bean.Hat;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -29,4 +30,11 @@ public interface PictureService {
      * @return {@link Hat} instance
      */
     Hat chooseSantaHat(Face face);
+
+    /**
+     * get upload file and return the result
+     * @param file
+     * @return
+     */
+    String uploadFile(MultipartFile file);
 }
