@@ -9,7 +9,7 @@
     <mvc:annotation-driven/>
 
     <!-- 扫描器 -->
-    <context:component-scan base-package="com.cuiods"/>
+    <context:component-scan base-package="com"/>
     <!-- ViewResolver -->
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix" value="/WEB-INF/jsp/"/>
@@ -24,6 +24,5 @@
     <mvc:resources mapping="/fonts/**" location="/fonts/"/>
     <!--<mvc:resources mapping="/plugin/**" location="/plugin/" />-->
 
-    <tx:annotation-driven transaction-manager="transactionManager"/>
 
 </beans>
