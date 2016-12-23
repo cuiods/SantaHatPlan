@@ -26,7 +26,7 @@
     <!-- 支持上传文件 -->
     <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"
           p:defaultEncoding="UTF-8"
-          p:maxUploadSize="5400"
+          p:maxUploadSize="540000"
           p:uploadTempDir="img/fileUpload"
     />
 

@@ -77,7 +77,7 @@ public class PictureServiceImpl implements PictureService {
     @Override
     public void uploadFile(MultipartFile file) {
         if(!file.isEmpty()){
-            String picUrl = request.getSession().getServletContext().getRealPath("/")+"upload/"+file.getOriginalFilename();
+            String picUrl = request.getSession().getServletContext().getRealPath("/")+"img/fileUpload/"+file.getOriginalFilename();
             List<Hat> hats = chooseSantaHat(findFaces(picUrl));
             request.setAttribute("hats",hats);
         }
