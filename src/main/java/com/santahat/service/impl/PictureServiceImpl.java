@@ -14,6 +14,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collector;
@@ -28,10 +30,6 @@ public class PictureServiceImpl implements PictureService {
 
     @Resource
     private APIManager apiManager;
-
-    @Autowired
-    private HttpServletRequest request;
-
 
     @Override
     public List<Face> findFaces(String url) {
@@ -75,11 +73,16 @@ public class PictureServiceImpl implements PictureService {
     }
 
     @Override
-    public void uploadFile(MultipartFile file) {
+    public void uploadFile(MultipartFile file,HttpServletRequest request) {
         if(!file.isEmpty()){
-            String picUrl = request.getSession().getServletContext().getRealPath("/")+"img/fileUpload/"+file.getOriginalFilename();
-            List<Hat> hats = chooseSantaHat(findFaces(picUrl));
-            request.setAttribute("hats",hats);
+            String picUrl = "/img/fileUpload/"+file.getOriginalFilename();
+            try {
+                file.transferTo(new File(apiManager.getPreffix()+picUrl));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+//            List<Hat> hats = chooseSantaHat(findFaces(picUrl));
+//            request.setAttribute("hats",hats);
         }
     }
 }

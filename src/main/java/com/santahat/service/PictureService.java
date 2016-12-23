@@ -4,6 +4,7 @@ import com.santahat.bean.Face;
 import com.santahat.bean.Hat;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -36,5 +37,5 @@ public interface PictureService {
      * @param file
      * @return
      */
-    void uploadFile(MultipartFile file);
+    void uploadFile(MultipartFile file, HttpServletRequest request);
 }
