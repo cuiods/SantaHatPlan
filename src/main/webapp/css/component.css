@@ -11,3 +11,12 @@ body {
     margin-right: auto;
     margin-top: 20%
 }
+
+.explain h2{
+    font-size: 2em;
+    color: #c9302c;
+}
+
+.explain p{
+    font-size: 1.2em;
+}
