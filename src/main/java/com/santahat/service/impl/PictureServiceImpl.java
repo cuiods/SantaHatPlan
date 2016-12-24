@@ -13,7 +13,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
+import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -33,6 +36,7 @@ public class PictureServiceImpl implements PictureService {
 
     @Override
     public List<Face> findFaces(String url) {
+        System.out.println("start find...");
         url = apiManager.getPreffix()+url;
         List<Face> faces = new ArrayList<Face>();
         try {
@@ -43,7 +47,7 @@ public class PictureServiceImpl implements PictureService {
                     .header("Ocp-Apim-Subscription-Key", apiManager.getFaceToken())
                     .body(jsonObject)
                     .asJson();
-            System.out.println(jsonResponse.getBody());
+            System.out.println("body:"+jsonResponse.getBody());
             JSONArray jsonArray = jsonResponse.getBody().getArray();
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject object = jsonArray.getJSONObject(i);
@@ -65,25 +69,52 @@ public class PictureServiceImpl implements PictureService {
     }
 
     @Override
+    public String mergeImage(File image, List<Hat> hats, HttpServletRequest request) {
+        if (image == null) {
+            return "";
+        }
+        try {
+            BufferedImage result = ImageIO.read(image);
+            Graphics graphics = result.getGraphics();
+            for (Hat hat : hats) {
+                String filePath = "";
+                if (request!=null) {
+                    filePath=request.getSession().getServletContext().getRealPath("/img/hats/");
+                }
+                BufferedImage hatImage = ImageIO.read(new File(filePath,hat.getHat_url()));
+                graphics.drawImage(hatImage,hat.getLeft(),hat.getTop()-hat.getHeight(),
+                        hat.getWidth(),hat.getHeight(),null);
+            }
+            ImageIO.write(result,"PNG",image);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return "/img/fileUpload/"+image.getName();
+    }
+
+    @Override
     public Hat chooseSantaHat(Face face) {
-        String url = apiManager.getHatUrl();
+//        String url = apiManager.getHatUrl();
+        String url = "xmas_9.png";
         Hat hat = new Hat(face);
         hat.setHat_url(url);
         return hat;
     }
 
     @Override
-    public void uploadFile(MultipartFile file,HttpServletRequest request) {
+    public File uploadFile(MultipartFile file,HttpServletRequest request) {
         if(!file.isEmpty()){
             String picUrl = file.getOriginalFilename();
-            System.out.println(picUrl);
+            String filePath = request.getSession().getServletContext().getRealPath("/img/fileUpload/");
+            System.out.println(filePath+picUrl);
             try {
-                file.transferTo(new File(request.getSession().getServletContext().getRealPath("/img/fileUpload/"),picUrl));
+                File image = new File(filePath,picUrl);
+                file.transferTo(image);
+                return image;
             } catch (IOException e) {
                 e.printStackTrace();
             }
-//            List<Hat> hats = chooseSantaHat(findFaces(picUrl));
-//            request.setAttribute("hats",hats);
         }
+        return null;
     }
 }

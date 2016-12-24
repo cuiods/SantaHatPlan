@@ -5,6 +5,7 @@ import com.santahat.bean.Hat;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.File;
 import java.util.List;
 
 /**
@@ -26,6 +27,14 @@ public interface PictureService {
     List<Hat> chooseSantaHat(List<Face> face);
 
     /**
+     * merge images
+     * @param image image file
+     * @param hats {@link Hat}
+     * @return image url with hats
+     */
+    String mergeImage(File image, List<Hat> hats, HttpServletRequest request);
+
+    /**
      * choose a hat for the face
      * @param face {@link Face} object
      * @return {@link Hat} instance
@@ -37,5 +46,5 @@ public interface PictureService {
      * @param file
      * @return
      */
-    void uploadFile(MultipartFile file, HttpServletRequest request);
+    File uploadFile(MultipartFile file, HttpServletRequest request);
 }

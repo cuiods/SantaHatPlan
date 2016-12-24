@@ -63,7 +63,7 @@ public class APIManager {
     }
 
     public String getHatUrl(){
-        String[] urls = {};
+        String[] urls = {"/img/hats/xmas_9.png"};
         int index = (int)(Math.random()*urls.length);
         return url_preffix + urls[index];
     }
