@@ -32,6 +32,7 @@ public class MainController {
                              HttpServletRequest request, HttpServletResponse response) throws IOException {
         File image = pictureSer.uploadFile(file,request);
         List<Face> faces = pictureSer.findFaces("/img/fileUpload/"+file.getOriginalFilename());
+        request.getSession().setAttribute("num",faces.size());
         List<Hat> hats = pictureSer.chooseSantaHat(faces);
         String picture = pictureSer.mergeImage(image,hats,request);
         request.getSession().setAttribute("url",picture);

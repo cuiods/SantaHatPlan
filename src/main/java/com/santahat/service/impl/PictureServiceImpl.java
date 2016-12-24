@@ -2,6 +2,7 @@ package com.santahat.service.impl;
 
 import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
+import com.mashape.unirest.http.exceptions.UnirestException;
 import com.santahat.bean.Face;
 import com.santahat.bean.Hat;
 import com.santahat.service.PictureService;
@@ -39,10 +40,11 @@ public class PictureServiceImpl implements PictureService {
         System.out.println("start find...");
         url = apiManager.getPreffix()+url;
         List<Face> faces = new ArrayList<Face>();
+        com.mashape.unirest.http.HttpResponse<JsonNode> jsonResponse = null;
         try {
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("url",url);
-            com.mashape.unirest.http.HttpResponse<JsonNode> jsonResponse = Unirest.post(apiManager.getFaceDetectApi())
+            jsonResponse = Unirest.post(apiManager.getFaceDetectApi())
                     .header("Content-Type", "application/json")
                     .header("Ocp-Apim-Subscription-Key", apiManager.getFaceToken())
                     .body(jsonObject)
@@ -56,7 +58,7 @@ public class PictureServiceImpl implements PictureService {
                 faces.add(face);
             }
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            System.out.println("body:"+jsonResponse.getBody());
             e.printStackTrace();
         }
         return faces;
