@@ -28,12 +28,12 @@
 <body>
 
 <div class="container">
-    <div class="col-lg-4 col-lg-offset-4 col-sm-6 col-sm-offset-3 col-xs-8 col-xs-offset-2 upload" >
+    <div class="col-lg-8 col-lg-offset-2 col-sm-8 col-sm-offset-2 col-xs-10 col-xs-offset-1 upload" >
         <img src="${url}" class="img-responsive" alt="modified image"/>
     </div>
     <div class="explain">
         <h2>如果没有看到圣诞帽：</h2>
-        <p>1、可能是大家操作太频繁啦！<br/>
+        <p>1、再试一次！<br/>
             2、图片上没有人！<br/>
             3、图片上的人长得太好看认不出了！</p>
     </div>

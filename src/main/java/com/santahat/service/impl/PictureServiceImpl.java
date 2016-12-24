@@ -84,10 +84,20 @@ public class PictureServiceImpl implements PictureService {
                     filePath=request.getSession().getServletContext().getRealPath("/img/hats/");
                 }
                 BufferedImage hatImage = ImageIO.read(new File(filePath,hat.getHat_url()));
-                graphics.drawImage(hatImage,hat.getLeft(),(int)(hat.getTop()-hat.getHeight()*1.2),
+                int height = (int)(hat.getTop()-hat.getHeight()*1.2);
+                if (height<0) {
+                    height = 0;
+                }
+                graphics.drawImage(hatImage,hat.getLeft(),height,
                         hat.getWidth(),hat.getHeight(),null);
             }
-            ImageIO.write(result,"PNG",image);
+            String name = image.getName();
+            String[] names = name.split(".");
+            String deFault = "PNG";
+            if (names.length>0) {
+                deFault = names[1].toUpperCase();
+            }
+            ImageIO.write(result,deFault,image);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -97,7 +107,7 @@ public class PictureServiceImpl implements PictureService {
     @Override
     public Hat chooseSantaHat(Face face) {
 //        String url = apiManager.getHatUrl();
-        String url = "xmas_9.png";
+        String url = "xmas_8.png";
         Hat hat = new Hat(face);
         hat.setHat_url(url);
         return hat;
