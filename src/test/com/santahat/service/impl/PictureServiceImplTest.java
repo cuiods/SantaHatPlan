@@ -31,8 +31,7 @@ public class PictureServiceImplTest {
     @Test
     public void mergeImage() throws Exception {
         File file = new File("5.png");
-        System.out.println(file.exists());
-        pictureService.mergeImage(file,pictureService.chooseSantaHat(pictureService.findFaces("/img/fileUpload/5.png")),null);
+        System.out.println(file.getName());
     }
 
 }

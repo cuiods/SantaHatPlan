@@ -82,7 +82,7 @@ public class PictureServiceImpl implements PictureService {
                     filePath=request.getSession().getServletContext().getRealPath("/img/hats/");
                 }
                 BufferedImage hatImage = ImageIO.read(new File(filePath,hat.getHat_url()));
-                graphics.drawImage(hatImage,hat.getLeft(),hat.getTop()-hat.getHeight(),
+                graphics.drawImage(hatImage,hat.getLeft(),(int)(hat.getTop()-hat.getHeight()*1.2),
                         hat.getWidth(),hat.getHeight(),null);
             }
             ImageIO.write(result,"PNG",image);
